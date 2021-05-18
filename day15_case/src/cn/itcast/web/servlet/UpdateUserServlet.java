@@ -14,29 +14,29 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
-@WebServlet("/addUserServlet")
-public class AddUserServlet extends HttpServlet {
+@WebServlet("/updateUserServlet")
+public class UpdateUserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //1.设置编码
         request.setCharacterEncoding("utf-8");
-        //2.获取参数
-        Map<String, String[]> parameterMap = request.getParameterMap();
+        //2.获取map
+        Map<String,String[]> map = request.getParameterMap();
         //3.封装对象
         User user = new User();
         try {
-            BeanUtils.populate(user, parameterMap);
+            BeanUtils.populate(user,map);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
 
-        //4.调用service保存
+        //4.调用service修改
         UserService service = new UserServiceImpl();
-        service.addUser(user);
+        service.updateUser(user);
 
-        //5.跳转到userListServlet
-        response.sendRedirect(request.getContextPath() + "/findUserByPageServlet");
+        //5.跳转到查询所有Servlet
+        response.sendRedirect(request.getContextPath()+"/findUserByPageServlet");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
