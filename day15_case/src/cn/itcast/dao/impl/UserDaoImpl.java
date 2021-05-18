@@ -129,8 +129,6 @@ public class UserDaoImpl implements UserDao {
         //添加分页查询参数值
         params.add(start);
         params.add(rows);
-        System.out.println(sql);
-        System.out.println(params);
 
         sql = sb.toString();
 
