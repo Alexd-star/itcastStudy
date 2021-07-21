@@ -30,20 +30,20 @@ public class LoginServlet extends HttpServlet {
         String checkcode_server = (String) session.getAttribute("CHECKCODE_SERVER");
         session.removeAttribute("CHECKCODE_SERVER");//保证验证码一次性作用
 
-        if (!checkcode_server.equalsIgnoreCase(verifycode)){
+        if (!checkcode_server.equalsIgnoreCase(verifycode)) {
             //验证码不正确
             //提示信息
-            request.setAttribute("login_msg","验证码错误");
+            request.setAttribute("login_msg", "验证码错误");
             //跳转登录页面
-            request.getRequestDispatcher("/login.jsp").forward(request,response);
+            request.getRequestDispatcher("/login.jsp").forward(request, response);
             return;
         }
 
-        Map<String,String[]> map = request.getParameterMap();
+        Map<String, String[]> map = request.getParameterMap();
         //4.封装user对象
         User user = new User();
         try {
-            BeanUtils.populate(user,map);
+            BeanUtils.populate(user, map);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
@@ -54,19 +54,18 @@ public class LoginServlet extends HttpServlet {
         UserService userService = new UserServiceImpl();
         User loginUser = userService.login(user);
         //6.判断是否登录成功
-        if (loginUser!=null){
+        if (loginUser != null) {
             //登录成功
             //将用户存入Session
-            session.setAttribute("user",loginUser);
+            session.setAttribute("user", loginUser);
             //跳转页面
-            response.sendRedirect(request.getContextPath()+"/index.jsp");
-        }else {
+            response.sendRedirect(request.getContextPath() + "/index.jsp");
+        } else {
             //登录失败
             //提示信息
-            request.setAttribute("login_msg","用户名或密码错误");
+            request.setAttribute("login_msg", "用户名或密码错误");
             //跳转登录页面
-            request.getRequestDispatcher("/login.jsp").forward(request,response);
-            return;
+            request.getRequestDispatcher("/login.jsp").forward(request, response);
         }
     }
 
